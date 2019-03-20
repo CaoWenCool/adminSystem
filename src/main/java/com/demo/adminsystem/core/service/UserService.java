@@ -1,6 +1,6 @@
 package com.demo.adminsystem.core.service;
 
-import com.demo.adminsystem.core.entity.User;
+import com.demo.adminsystem.core.entity.TbSystemUser;
 
 import java.util.List;
 
@@ -13,13 +13,14 @@ import java.util.List;
  **/
 public interface UserService {
 
-    User getUser(Integer id);
 
-    List<User> getUserList(String keyword);
+    TbSystemUser getUser(Integer id);
 
-    void addUser(User user);
+    List<TbSystemUser> getUserList(String keyword);
 
-    User updateUser(User user);
+    void addUser(TbSystemUser user);
+
+    TbSystemUser updateUser(TbSystemUser user);
 
     void deleteUser(Integer id);
 }

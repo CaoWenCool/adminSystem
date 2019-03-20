@@ -1,6 +1,9 @@
 package com.demo.adminsystem.core.interceptors;
 
 import com.demo.adminsystem.core.util.RequestUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,49 +18,39 @@ import javax.servlet.http.HttpServletResponse;
  * @version: V1.0
  * @detail:
  **/
+@Configuration
 public class AdminLoginInterceptor implements HandlerInterceptor{
 
+    final static Logger LOGGER = LoggerFactory.getLogger(AdminLoginInterceptor.class);
+
     /**
-     * Controller 前调用的方法
-     * @param request
-     * @param response
-     * @param handler
-     * @return
-     * @throws Exception
+     * 页面渲染完以后调用
      */
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Integer userId = (Integer) request.getAttribute("userId");
-        if(userId == null){
-            response.sendRedirect(RequestUtil.getAppURL(request)+ "/login.html");
-            return false;
-        }
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
+            throws Exception {
+        // TODO Auto-generated method stub
+        HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
+    }
+
+    /**
+     * Controller调用后，渲染页面前调用
+     */
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+                           ModelAndView modelAndView) throws Exception {
+        // TODO Auto-generated method stub
+        HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
+
+
+    }
+
+    /**
+     * Controller前调用的方法
+     */
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+            throws Exception {
         return true;
-    }
-
-    /**
-     * Controller 调用后，渲染也页面之前调用
-     * @param request
-     * @param response
-     * @param handler
-     * @param modelAndView
-     * @throws Exception
-     */
-    @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable ModelAndView modelAndView) throws Exception {
-        HandlerInterceptor.super.postHandle(request,response,handler,modelAndView);
-    }
-
-    /**
-     * 页面渲染以后调用
-     * @param request
-     * @param response
-     * @param handler
-     * @param ex
-     * @throws Exception
-     */
-    @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex) throws Exception {
-        HandlerInterceptor.super.afterCompletion(request,response,handler,ex);
     }
 }

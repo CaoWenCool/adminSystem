@@ -40,8 +40,8 @@ public class SpringEmailTest {
     public void sendSimpleMail() throws Exception {
 
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("1042879511@qq.com");
-        message.setTo("3441955411@qq.com");
+        message.setFrom("yanbumo@163.com");
+        message.setTo("yanbumo@163.com");
         message.setSubject("主题：简单邮件");
         message.setText("测试邮件内容");
 

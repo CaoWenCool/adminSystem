@@ -1,7 +1,6 @@
 package com.demo.adminsystem.core.plugins.excel;
 
 import com.alibaba.fastjson.JSONObject;
-import com.demo.adminsystem.core.entity.User;
 import io.github.biezhi.excel.plus.ExcelPlus;
 import io.github.biezhi.excel.plus.enums.ParseType;
 import io.github.biezhi.excel.plus.exception.ExcelException;
@@ -17,9 +16,10 @@ import java.util.List;
  * @create: 2019/3/20
  * @update: 16:48
  * @version: V1.0
- * @detail: ParseExcel Excel 操作 插件地址：
+ * @detail: ParseExcel Excel 操作 插件地址 https://biezhi.github.io/excel-plus/#/?id=%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B
  **/
 public class ParseExcel<T> {
+
     private T t;
 
     public List<T> parseExcel(File file) throws ExcelException {
@@ -42,10 +42,7 @@ public class ParseExcel<T> {
         new ExcelPlus().export(list).writeAsResponse(ResponseWrapper.create(response, name));
     }
 
-    public static void main(String[] args) throws ExcelException {
-        ParseExcel<User> excel = new ParseExcel();
-        for (User user : excel.parseExcel(new File(""))) {
-            System.out.println(JSONObject.toJSONString(user));
-        }
-    }
+//    public static void main(String[] args) throws ExcelException {
+//
+//    }
 }

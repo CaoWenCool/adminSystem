@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorController;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -44,83 +45,92 @@ public class ErrorController extends AbstractErrorController{
         super(errorAttributes);
     }
 
+
     /**
-     * 处理不可预知的异常
+     * 处理所有不可知的异常
+     *
      * @param e
      * @return
      */
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public CommonResult handleException(Exception e){
-        logger.error("异常信息"+ e.getMessage(),e);
+    public CommonResult handleException(Exception e) {
+        logger.error("异常信息：" + e.getMessage(), e);
         return CommonResult.resultError(errorMsg);
     }
 
     /**
-     * 处理所有的业务异常
+     * 处理所有业务异常
+     *
      * @param e
      * @return
      */
     @ExceptionHandler(PlatformRuntimeException.class)
     @ResponseBody
-    public CommonResult handleBusinessException(PlatformRuntimeException e){
-        logger.error("异常信息"+ e.getMessage(),e);
+    public CommonResult handleBusinessException(PlatformRuntimeException e) {
+        logger.error("异常信息：" + e.getMessage(), e);
         return CommonResult.build(
-                e.getCode() != null ? e.getCode(): CommonResult.ResultStatusType.ERROR.status,
+                e.getCode() != null ? e.getCode() : CommonResult.ResultStatusType.ERROR.status,
                 e.getMessage(),
                 e.getData());
     }
 
-    public CommonResult getErrorPath(HttpServletRequest request,HttpServletResponse response){
-        Exception cause   = this.getCause(request);
+    @RequestMapping
+    @ResponseBody
+    public CommonResult getErrorPath(HttpServletRequest request, HttpServletResponse response) {
+
+        Exception cause = this.getCause(request);
 
         String errMsg = null;
         Integer code = null;
         Object data = null;
 
-        if(cause !=  null && cause instanceof PlatformRuntimeException){
+        if (cause != null && cause instanceof PlatformRuntimeException) {
             PlatformRuntimeException exception = (PlatformRuntimeException) cause;
             errMsg = exception.getMessage();
             code = exception.getCode();
             data = exception.getData();
         }
-
-        if(code == null){
-            if(response.getStatus() == org.springframework.http.HttpStatus.NOT_FOUND.value()){
+        if (code == null) {
+            if (response.getStatus() == HttpStatus.NOT_FOUND.value()) {
                 code = response.getStatus();
-                errMsg = org.springframework.http.HttpStatus.NOT_FOUND.getReasonPhrase();
+                errMsg = HttpStatus.NOT_FOUND.getReasonPhrase();
                 data = request.getRequestURI();
             }
+            //这里可以补充其他未捕获的异常
         }
-        if(code == null){
+
+        if (code == null) {
             code = CommonResult.ResultStatusType.ERROR.status;
         }
-        if(errMsg == null){
+        if (errMsg == null) {
             errMsg = errorMsg;
         }
-        CommonResult commonResult = CommonResult.build(code,errMsg,data);
-        if(cause != null){
-            logger.error("异常信息："+cause.getMessage(),cause);
-        }else {
-            try{
-                logger.error("异常信息:" + Constant.OBJECT_MAPPER.writeValueAsString(commonResult));
-            }catch (JsonProcessingException e){
-                e.printStackTrace();;
+        CommonResult commonResult = CommonResult.build(code, errMsg, data);
+
+        if (cause != null) {
+            logger.error("异常信息：" + cause.getMessage(), cause);
+        } else {
+            try {
+                logger.error("异常信息：" + Constant.OBJECT_MAPPER.writeValueAsString(commonResult));
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
             }
         }
         return commonResult;
+
     }
 
-    private Exception getCause(HttpServletRequest request){
+    private Exception getCause(HttpServletRequest request) {
+
         Throwable error = (Throwable) request.getAttribute("javax.servlet.error.exception");
-        if(error != null){
-            while (error instanceof ServletException && error.getCause() != null){
-                error = ((ServletException)error).getCause();
+        if (error != null) {
+            while (error instanceof ServletException && error.getCause() != null) {
+                error = ((ServletException) error).getCause();
             }
         }
         return (Exception) error;
     }
-
 
     @Override
     public String getErrorPath() {

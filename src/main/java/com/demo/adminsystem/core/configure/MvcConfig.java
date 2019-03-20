@@ -1,14 +1,9 @@
 package com.demo.adminsystem.core.configure;
 
-import com.demo.adminsystem.AdminsystemApplication;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.format.FormatterRegistrar;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.datetime.DateFormatter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 
 /**
  * @author: admin
@@ -18,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @detail:
  **/
 @Configuration
-public class MvnConfig implements WebMvcConfigurer{
+public class MvcConfig implements WebMvcConfigurer{
 
     /**
      * 跨域访问
@@ -57,7 +52,10 @@ public class MvnConfig implements WebMvcConfigurer{
      * @param registry
      */
     @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/test1").setViewName("/login.html");
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/statics/**").addResourceLocations("classpath:/statics/");
+        // 解决 SWAGGER 404报错
+        registry.addResourceHandler("/swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 }

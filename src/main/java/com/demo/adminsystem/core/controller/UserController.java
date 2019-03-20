@@ -1,23 +1,22 @@
 package com.demo.adminsystem.core.controller;
 
-import com.demo.adminsystem.core.entity.User;
+import com.alibaba.fastjson.JSONObject;
+import com.demo.adminsystem.core.annotations.OperationLog;
+import com.demo.adminsystem.core.dao.TbSystemRoleDao;
+import com.demo.adminsystem.core.entity.TbSystemRole;
+import com.demo.adminsystem.core.entity.TbSystemUser;
 import com.demo.adminsystem.core.service.UserService;
 import com.demo.adminsystem.core.util.CommonResult;
-import com.demo.adminsystem.core.util.filterDto.FilterView;
-import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.commons.lang.StringUtils;
 import org.beetl.sql.core.SQLManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author: admin
@@ -27,92 +26,99 @@ import java.util.Map;
  * @detail:
  **/
 @Api(tags = {"用户操作相关接口"})
-@Controller
-@RequestMapping("/")
+@RestController
+@RequestMapping("/api/v1/user")
 public class UserController {
     @Autowired
     private UserService userService;
+
     @Autowired
     private SQLManager sqlManager;
 
-    @ApiOperation(value = "访问管理端主页", notes = "注意需要登录")
-    @GetMapping("/admin/home")
-    public String home(){
-        return "home";
-    }
+    @Autowired
+    private TbSystemRoleDao roleDao;
 
-    @ApiOperation(value = "获取用户信息", notes = "")
-    @PostMapping("/user/info")
-    @ResponseBody
-    public CommonResult userInfo(@ApiParam(value = "用户ID", required = true) @RequestParam Integer id){
-        User user = userService.getUser(id);
-        return CommonResult.resultSuccess(user, 1);
+
+    @ApiOperation(value = "获取用户信息", notes = "获取用户详细信息")
+    @GetMapping("/info")
+    @OperationLog(module = "用户设置", operation = "获取用户信息", remark = "")
+    public CommonResult userInfo(
+            @ApiParam(value = "用户ID", required = true) @RequestParam Integer id) {
+        return CommonResult.resultSuccess("success", userService.getUser(id));
     }
 
     @ApiOperation(value = "获取用户列表", notes = "根据用户条件查询")
-    @GetMapping("/user/list")
-    @ResponseBody
+    @GetMapping("/list")
+    @OperationLog(module = "用户设置", operation = "获取用户列表", remark = "")
     public CommonResult userList(
             @ApiParam(value = "姓名模糊查询") @RequestParam(required = false) String keyword) {
-        List<User> list = userService.getUserList(keyword);
-        return CommonResult.resultSuccess(list, list.size());
+        List<TbSystemUser> list = userService.getUserList(keyword);
+        List<JSONObject> userList = new ArrayList<>();
+        for (TbSystemUser item : list) {
+            JSONObject user = JSONObject.parseObject(JSONObject.toJSONString(item));
+            user.remove("password");
+            userList.add(user);
+        }
+        return CommonResult.resultSuccess(userList, userList.size());
     }
 
     @ApiOperation(value = "新增用户", notes = "")
-    @PostMapping("/user/add")
-    @ResponseBody
+    @PostMapping("/add")
+    @OperationLog(module = "用户设置", operation = "新增用户", remark = "")
     public CommonResult addUser(
-            @ApiParam(name = "user", value = "新增用户") @RequestParam User user) {
+            @ApiParam(name = "user", value = "新增用户") @RequestParam TbSystemUser user) {
         userService.addUser(user);
         return CommonResult.resultSuccess("新增成功");
     }
 
     @ApiOperation(value = "更新用户", notes = "ID不能为空")
-    @PostMapping("/user/update")
-    @ResponseBody
+    @PutMapping("/update")
+    @OperationLog(module = "用户设置", operation = "更新用户", remark = "")
     public CommonResult updateUser(
-            @ApiParam(name = "user", value = "更新用户") User user) {
+            @ApiParam(name = "user", value = "更新用户") TbSystemUser user) {
         userService.updateUser(user);
         return CommonResult.resultSuccess("修改成功");
     }
 
     @ApiOperation(value = "删除用户", notes = "ID不能为空")
-    @PostMapping("/user/delete")
-    @ResponseBody
+    @DeleteMapping("/delete")
+    @OperationLog(module = "用户设置", operation = "删除用户", remark = "")
     public CommonResult deleteUser(
             @ApiParam(name = "id", value = "用户ID") @RequestParam Integer id) {
         userService.deleteUser(id);
         return CommonResult.resultSuccess("删除成功");
     }
 
-    @PostMapping("/putsession")
-    @ResponseBody
-    public CommonResult putsession(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Map<String, Object> map = new HashMap<>();
-        map.put("session-class", session.getClass());
-        map.put("session-id", session.getId());
-        map.put("session-CreationTime", session.getCreationTime());
-        map.put("session-LastAccessedTime", session.getLastAccessedTime());
-        map.put("session-MaxInactiveInterval", session.getMaxInactiveInterval());
-        session.setAttribute("user", "闲大赋 xiandafu");
-        return CommonResult.resultSuccess(map, map.size());
+    @ApiOperation(value = "新增用户组", notes = "")
+    @PostMapping("/role/add")
+    @OperationLog(module = "用户设置", operation = "新增用户", remark = "")
+    public CommonResult addRole(
+            @ApiParam(name = "role", value = "新增用户分组") @RequestParam TbSystemRole role) {
+        roleDao.insert(role);
+        return CommonResult.resultSuccess("新增成功");
     }
 
-    /**
-     * 添加ObjectMapper过滤测试
-     *
-     * @param id
-     * @return
-     */
-    @PostMapping("/test")
-    @ResponseBody
-    //	@JsonView(FilterView.OutputAutoMark.class)
-    @JsonView(FilterView.OutputB.class)
-    //	@JsonView(FilterView.OutputA.class)
-    public CommonResult test(Integer id) {
-        User user = sqlManager.single(User.class, id);
-        return CommonResult.resultSuccess(user, 1);
+    @ApiOperation(value = "获取用户分组列表", notes = "返回所有数据")
+    @GetMapping("/role/list")
+    @OperationLog(module = "用户设置", operation = "获取用户分组列表", remark = "")
+    public CommonResult roleList(
+            @ApiParam(value = "分组名称查询") @RequestParam(required = false) String keyword) {
+        List<TbSystemRole> list;
+        if (StringUtils.isNotEmpty(keyword)) {
+            list = sqlManager.lambdaQuery(TbSystemRole.class).andLike(TbSystemRole::getName, keyword + "%").select();
+        } else {
+            list = roleDao.all();
+        }
+        return CommonResult.resultSuccess(list, list.size());
+    }
+
+    @ApiOperation(value = "删除角色", notes = "ID不能为空")
+    @DeleteMapping("/role/delete")
+    @OperationLog(module = "用户设置", operation = "删除角色", remark = "")
+    public CommonResult roleUser(
+            @ApiParam(name = "id", value = "用户ID") @RequestParam Integer id) {
+        roleDao.deleteById(id);
+        return CommonResult.resultSuccess("删除成功");
     }
 }
 

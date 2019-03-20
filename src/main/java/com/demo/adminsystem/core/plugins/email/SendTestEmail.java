@@ -31,16 +31,17 @@ public class SendTestEmail {
 
     /**
      * 发送文本文件
+     *
      * @param to
-     * @param cc
      * @param subject
      * @param content
      */
-    public void sendTextMail(String[] to,String[] cc,String subject,String content){
+    public void sendTextMail(String[] to, String[] cc, String subject, String content) {
+
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom(javaMailSender.getUsername());
         mailMessage.setTo(to);
-        if(cc != null){
+        if (cc != null) {
             mailMessage.setCc(cc);
         }
         mailMessage.setSubject(subject);
@@ -49,19 +50,19 @@ public class SendTestEmail {
         javaMailSender.send(mailMessage);
     }
 
-    public void sendTextMailWithFile(String[] to,String[] cc,String subject,String content,File[] files)throws MessagingException {
+    public void sendTextMailWithFile(String[] to, String[] cc, String subject, String content, File[] files) throws MessagingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        MimeMessageHelper mailMessage = new MimeMessageHelper(mimeMessage,true);
+        MimeMessageHelper mailMessage = new MimeMessageHelper(mimeMessage, true);
         mailMessage.setFrom(javaMailSender.getUsername());
         mailMessage.setTo(to);
-        if(cc != null){
+        if (cc != null) {
             mailMessage.setCc(cc);
         }
         mailMessage.setSubject(subject);
         mailMessage.setText(content);
         mailMessage.setSentDate(new Date());
-        for(File file:files){
-            mailMessage.addAttachment(file.getName(),file);
+        for (File file : files) {
+            mailMessage.addAttachment(file.getName(), file);
         }
         javaMailSender.send(mimeMessage);
     }

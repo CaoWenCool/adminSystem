@@ -1,7 +1,5 @@
 package com.demo.adminsystem.core.service.impl;
 
-import com.demo.adminsystem.core.dao.UserDao;
-import com.demo.adminsystem.core.entity.User;
 import com.demo.adminsystem.core.exception.PlatformRuntimeException;
 import com.demo.adminsystem.core.service.UserService;
 import org.beetl.sql.core.SQLManager;
