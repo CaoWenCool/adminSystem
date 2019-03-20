@@ -14,60 +14,67 @@ public class PlatformRuntimeException extends RuntimeException{
     private Integer code;
 
     private Object data;
-    public PlatformRuntimeException(){
 
+    public PlatformRuntimeException() {
     }
 
     public PlatformRuntimeException(String msg){
         super(msg);
     }
 
-    public PlatformRuntimeException(String msg,Integer code){
+    public PlatformRuntimeException(String msg,Integer code) {
         super(msg);
         this.code = code;
     }
-
-    public PlatformRuntimeException(String msg,Integer code,Object data){
+    public PlatformRuntimeException(String msg,Integer code, Object data) {
         super(msg);
         this.code = code;
         this.data = data;
     }
-
-    public PlatformRuntimeException(String msg,Integer code,Object data,Throwable cause){
+    public PlatformRuntimeException(String msg,Integer code, Throwable cause) {
         super(msg);
-        this.code=code;
-        this.data= data;
-        this.cause= cause;
+        this.code = code;
+        this.cause = cause;
     }
-
-    public PlatformRuntimeException(String message,Throwable cause){
-        super(message);
+    public PlatformRuntimeException(String msg,Integer code, Object data, Throwable cause) {
+        super(msg);
+        this.code = code;
+        this.data = data;
         this.cause = cause;
     }
 
-    public PlatformRuntimeException(Throwable cause){
-        super(cause.getMessage());
+    public PlatformRuntimeException( String message, Throwable cause )
+    {
+        super( message );
+        this.cause = cause;
+    }
+
+    public PlatformRuntimeException( Throwable cause )
+    {
+        super( cause.getMessage() );
         this.cause = cause;
     }
 
     @Override
-    public synchronized Throwable getCause() {
+    public Throwable getCause()
+    {
         return this.cause;
     }
 
-    public Integer getCode(){
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(Integer code){
+    public void setCode(Integer code) {
         this.code = code;
     }
 
-    public Object getData(){
+    public Object getData() {
         return data;
     }
 
-    public void setData(Object data){
+    public void setData(Object data) {
         this.data = data;
     }
+
 }

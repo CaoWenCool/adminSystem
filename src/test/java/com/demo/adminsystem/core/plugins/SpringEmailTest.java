@@ -55,7 +55,7 @@ public class SpringEmailTest {
 
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
         helper.setFrom(mailSender.getUsername());
-        helper.setTo("1162942521@qq.com");
+        helper.setTo("3441955411@qq.com");
         helper.setSubject("主题：模板邮件");
 
         Map<String, Object> model = new HashedMap();

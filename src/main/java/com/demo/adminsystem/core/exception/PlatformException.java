@@ -10,29 +10,30 @@ package com.demo.adminsystem.core.exception;
 public class PlatformException extends Exception{
 
     private static final long serialVersionUID = 1L;
-
     protected Throwable cause = null;
 
-    public PlatformException(){
-
+    public PlatformException() {
     }
 
     public PlatformException(String msg){
         super(msg);
     }
 
-    public PlatformException(String message,Throwable cause){
-        super(message);
+    public PlatformException( String message, Throwable cause )
+    {
+        super( message );
         this.cause = cause;
     }
 
-    public PlatformException(Throwable cause){
-        super(cause.getMessage());
+    public PlatformException( Throwable cause )
+    {
+        super( cause.getMessage() );
         this.cause = cause;
     }
 
     @Override
-    public synchronized Throwable getCause() {
+    public Throwable getCause()
+    {
         return this.cause;
     }
 }

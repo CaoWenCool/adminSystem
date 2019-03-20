@@ -10,24 +10,30 @@ package com.demo.adminsystem.core.exception;
 public class PlatformEncryptRuntimeException extends PlatformRuntimeException{
 
     private static final long serialVersionUID = 1L;
-
     protected Throwable cause = null;
 
-    public PlatformEncryptRuntimeException(){
-
+    public PlatformEncryptRuntimeException() {
     }
-    public PlatformEncryptRuntimeException(String message,Throwable cause){
-        super(message);
+
+    public PlatformEncryptRuntimeException(String msg){
+        super(msg);
+    }
+
+    public PlatformEncryptRuntimeException( String message, Throwable cause )
+    {
+        super( message );
         this.cause = cause;
     }
 
-    public PlatformEncryptRuntimeException(Throwable cause){
-        super(cause.getMessage());
+    public PlatformEncryptRuntimeException( Throwable cause )
+    {
+        super( cause.getMessage() );
         this.cause = cause;
     }
 
     @Override
-    public synchronized Throwable getCause() {
-        return this.getCause();
+    public Throwable getCause()
+    {
+        return this.cause;
     }
 }
