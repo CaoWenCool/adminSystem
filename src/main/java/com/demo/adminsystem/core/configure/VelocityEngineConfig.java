@@ -21,8 +21,9 @@ public class VelocityEngineConfig {
     @Autowired
     Environment environment;
 
-    @Bean
+    @Bean(name = "velocityEngine")
     public VelocityEngine velocityEngine() throws Exception {
+
         Properties properties = new Properties();
         String[] paramsNames = new String[]{"input.encoding", "output.encoding", "resource.loader", "class.resource.loader.class"};
         for (String name : paramsNames) {

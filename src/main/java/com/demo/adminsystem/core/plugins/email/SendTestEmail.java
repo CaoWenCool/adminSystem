@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -19,8 +20,9 @@ import java.util.Date;
  * @create: 2019/3/20
  * @update: 16:20
  * @version: V1.0
- * @detail:
+ * @detail: 邮件发送模板
  **/
+@Service
 public class SendTestEmail {
     @Autowired
     private JavaMailSenderImpl javaMailSender;
