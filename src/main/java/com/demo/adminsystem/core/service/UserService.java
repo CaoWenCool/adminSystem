@@ -23,4 +23,5 @@ public interface UserService {
     TbSystemUser updateUser(TbSystemUser user);
 
     void deleteUser(Integer id);
+
 }
