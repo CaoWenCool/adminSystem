@@ -70,9 +70,9 @@ public class HashKit {
         return toHex(salt);
     }
 
-//    public static void main(String[] args) {
-//        String passwd = "123456";
-//        String md5 = HashKit.md5(passwd);
-//        System.out.println(md5);
-//    }
+    public static void main(String[] args) {
+        String passwd = "123456";
+        String md5 = HashKit.md5(passwd);
+        System.out.println(md5);
+    }
 }
