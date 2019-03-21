@@ -46,7 +46,7 @@ public class GenProjectCode {
         // List<Tables> list = sqlManager.execute(new SQLReady("select Name FROM SysObjects Where XType='U' ORDER BY Name"),Tables.class);
         List<Tables> list = new ArrayList<>();
         Tables tables = new Tables();
-        tables.setName("tb_system_logs");
+        tables.setName("tb_system_user");
         list.add(tables);
         for (Tables t : list) {
 //            System.out.println(table.getName());

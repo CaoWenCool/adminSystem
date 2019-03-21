@@ -1,14 +1,14 @@
 package com.demo.adminsystem.core.dao;
-
-import com.demo.adminsystem.core.entity.TbSystemLogs;
+import org.beetl.sql.core.annotatoin.*;
+import org.beetl.sql.core.db.KeyHolder;
+import org.beetl.sql.core.engine.PageQuery;
 import org.beetl.sql.core.mapper.BaseMapper;
+import com.demo.adminsystem.core.entity.*;
 
-/**
- * @author: admin
- * @create: 2019/3/20
- * @update: 18:30
- * @version: V1.0
- * @detail:
- **/
+/*
+* 
+* gen by beetlsql mapper 2019-03-21
+*/
 public interface TbSystemLogsDao extends BaseMapper<TbSystemLogs> {
+	
 }
