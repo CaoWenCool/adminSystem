@@ -32,10 +32,10 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("WEB-EDI & 进出口系统 API文档")
+                .title("管理员系统 API文档")
                 .description("记录　WEB-EDI & 进出口系统 API文档　详细")
-                .termsOfServiceUrl("http://git.yaoqian.tech")
-                .contact("yanbumo@163.com")
+                .termsOfServiceUrl("http://www.system-swagger.tech")
+                .contact("1042879511@qq.com")
                 .version("1.0")
                 .build();
     }

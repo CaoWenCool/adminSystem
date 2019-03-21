@@ -14,7 +14,12 @@
 		<java.version>1.8</java.version>
 
 		<mysql-connector-version>5.1.46</mysql-connector-version>
-		<sqlserver-version>4.0</sqlserver-version>
+
+		<!-- 文件拷贝时的编码 -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<!-- 编译时的编码 -->
+		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
 	</properties>
 
 	<parent>
@@ -33,23 +38,9 @@
 			<artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
 
-		<!--Mysql依赖-->
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>${mysql-connector-version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.microsoft.sqlserver</groupId>
-			<artifactId>sqljdbc4</artifactId>
-			<version>${sqlserver-version}</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/com.ibeetl/beetl-framework-starter -->
-		<dependency>
-			<groupId>com.ibeetl</groupId>
-			<artifactId>beetl-framework-starter</artifactId>
-			<version>1.1.48.RELEASE</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
@@ -58,6 +49,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -70,22 +62,43 @@
 			<version>1.4.7.RELEASE</version>
 		</dependency>
 
+		<!--Mysql依赖-->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql-connector-version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
+		<dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>mssql-jdbc</artifactId>
+			<version>6.1.0.jre8</version>
+		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/com.ibeetl/beetl-framework-starter -->
+		<dependency>
+			<groupId>com.ibeetl</groupId>
+			<artifactId>beetl-framework-starter</artifactId>
+			<version>1.1.48.RELEASE</version>
+		</dependency>
+
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
 			<version>2.7.0</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/io.swagger/swagger-annotations -->
 		<dependency>
-			<groupId>io.swagger</groupId>
-			<artifactId>swagger-annotations</artifactId>
-			<version>1.5.17</version>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.7.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
+
 
 		<!-- https://mvnrepository.com/artifact/io.github.biezhi/excel-plus -->
 		<dependency>
@@ -101,6 +114,7 @@
 			<version>1.16.20</version>
 			<scope>provided</scope>
 		</dependency>
+
 
 		<dependency>
 			<groupId>com.alibaba</groupId>
@@ -135,12 +149,7 @@
 			<artifactId>guava</artifactId>
 			<version>21.0</version>
 		</dependency>
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjrt</artifactId>
-            <version>1.8.13</version>
-        </dependency>
-    </dependencies>
+	</dependencies>
 
 	<build>
 		<plugins>
@@ -148,28 +157,28 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>com.longyu.ApplicationRun</mainClass>
+					<mainClass>com.demo.adminsystem.AdminsystemApplication</mainClass>
 					<fork>true</fork>
 				</configuration>
 			</plugin>
 		</plugins>
-		<resources>
-			<resource>
-				<directory>src/lib</directory>
-				<targetPath>BOOT-INF/lib/</targetPath>
-				<includes>
-					<include>**/*.jar</include>
-					<!--<include>**/*.dll</include>-->
-				</includes>
-			</resource>
-			<resource>
-				<directory>src/main/resources/</directory>
-				<targetPath>./</targetPath>
-				<includes>
-					<include>**/*.yaml</include>
-				</includes>
-			</resource>
-		</resources>
+		<!--<resources>
+            <resource>
+                <directory>src/lib</directory>
+                <targetPath>BOOT-INF/lib/</targetPath>
+                <includes>
+                    <include>**/*.jar</include>
+                    &lt;!&ndash;<include>**/*.dll</include>&ndash;&gt;
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources/</directory>
+                <targetPath>./</targetPath>
+                <includes>
+                    <include>**/*.yaml</include>
+                </includes>
+            </resource>
+        </resources>-->
 	</build>
 
 	<repositories>

@@ -26,7 +26,7 @@ import java.util.Map;
 @Configuration
 public class TxAdviceConfiguration {
     private int transactionTimeout = 60;
-    private static final String AOP_POINTCUT_EXPRESSION = "execution (* com.longyu.core.service..*(..))";
+    private static final String AOP_POINTCUT_EXPRESSION = "execution (* com.demo.adminsystem.core.service..*(..))";
 
     @Autowired
     private PlatformTransactionManager transactionManager;
