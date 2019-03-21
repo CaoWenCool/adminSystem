@@ -415,4 +415,8 @@ public class PwdUtil {
             throw new PlatformEncryptRuntimeException("DES解密失败",e);
         }
     }
+
+    public static void main(String[] args) {
+        System.out.println(aesEncrypt("admin.2018"));
+    }
 }

@@ -6,14 +6,13 @@ import com.demo.adminsystem.core.controller.params.LoginUser;
 import com.demo.adminsystem.core.entity.TbSystemLogs;
 import com.demo.adminsystem.core.service.SystemService;
 import com.demo.adminsystem.core.util.CommonResult;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang.StringUtils;
 import org.beetl.sql.core.SQLManager;
 import org.beetl.sql.core.engine.PageQuery;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -24,6 +23,9 @@ import javax.annotation.Resource;
  * @version: V1.0
  * @detail:
  **/
+@Api(tags = "系统相关")
+@RestController
+@RequestMapping("/api/v1/system")
 public class SystemController {
     @Resource
     SystemService systemService;
