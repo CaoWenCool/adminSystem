@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 public class TbSystemUser  {
 	
 	//主键ID
-	private Integer id ;
+	private Long id ;
 	private Integer age ;
 	private Integer isAdmin ;
 	private Integer isUse ;
@@ -34,13 +34,13 @@ public class TbSystemUser  {
 	/**主键ID
 	*@return 
 	*/
-	public Integer getId(){
+	public Long getId(){
 		return  id;
 	}
 	/**主键ID
 	*@param  id
 	*/
-	public void setId(Integer id ){
+	public void setId(Long id ){
 		this.id = id;
 	}
 	

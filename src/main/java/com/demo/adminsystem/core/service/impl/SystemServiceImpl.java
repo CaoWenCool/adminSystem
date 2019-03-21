@@ -35,7 +35,7 @@ public class SystemServiceImpl implements SystemService {
         if (user == null) {
             return CommonResult.resultFail("用户不存在");
         }
-        if (user.getInUse() != 1) {
+        if (user.getIsUse() != 1) {
             return CommonResult.resultFail("用户被冻结");
         }
         if (!user.getPassword().equals(PwdUtil.aesEncrypt(password))) {
